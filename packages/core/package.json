@@ -1,0 +1,49 @@
+{
+  "name": "@multiscreen/core",
+  "version": "0.0.1",
+  "description": "core utilities for multiscreen TV and Mobile apps",
+  "keywords": [
+    "TV",
+    "OTT"
+  ],
+  "author": "Satadru Bhattacharjee <Satadru.Bhatt@gmail.com>",
+  "homepage": "https://github.com/SatadruBhattacharjee/multiscreen#readme",
+  "license": "ISC",
+  "main": "dist/core.umd.js",
+  "module": "dist/core.es5.js",
+  "typings": "dist/types/core.d.ts",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SatadruBhattacharjee/multiscreen.git"
+  },
+  "scripts": {
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__tests__/**/*.ts'",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "prebuild": "rimraf dist",
+    "precommit": "lint-staged",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache"
+  },
+  "lint-staged": {
+    "{src,__tests__}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "bugs": {
+    "url": "https://github.com/SatadruBhattacharjee/multiscreen/issues"
+  }
+}
