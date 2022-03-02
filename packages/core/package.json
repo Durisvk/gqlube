@@ -39,11 +39,13 @@
       "git add"
     ]
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
   "bugs": {
     "url": "https://github.com/Durisvk/gqlube/issues"
+  },
+  "dependencies": {
+    "assert": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.5.6"
   }
 }
