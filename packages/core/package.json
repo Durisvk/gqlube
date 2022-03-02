@@ -1,13 +1,13 @@
 {
-  "name": "@multiscreen/core",
+  "name": "@lubegql/core",
   "version": "0.0.1",
-  "description": "core utilities for multiscreen TV and Mobile apps",
+  "description": "",
   "keywords": [
     "TV",
     "OTT"
   ],
-  "author": "Satadru Bhattacharjee <Satadru.Bhatt@gmail.com>",
-  "homepage": "https://github.com/SatadruBhattacharjee/multiscreen#readme",
+  "author": "Juraj Carnogursky <durisvk2@gmail.com>",
+  "homepage": "https://github.com/Durisvk/gqlube#readme",
   "license": "ISC",
   "main": "dist/core.umd.js",
   "module": "dist/core.es5.js",
@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SatadruBhattacharjee/multiscreen.git"
+    "url": "git+https://github.com/Durisvk/gqlube.git"
   },
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__tests__/**/*.ts'",
@@ -44,6 +44,6 @@
     "singleQuote": true
   },
   "bugs": {
-    "url": "https://github.com/SatadruBhattacharjee/multiscreen/issues"
+    "url": "https://github.com/Durisvk/gqlube/issues"
   }
 }

@@ -1,0 +1,41 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm run test:prod
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Build documentation
+        run: npm run docs
+
+      - name: Report coverage
+        run: npm run report-coverage
+
+      - name: Deploy documentation
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npm run deploy-docs
+
+      - name: Publish to NPM
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run semantic-release

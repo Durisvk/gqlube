@@ -1,9 +1,9 @@
 {
-  "name": "monorepo-typescript-library-starter",
+  "name": "lubegql",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SatadruBhattacharjee/monorepo-typescript-library-starter"
+    "url": "https://github.com/Durisvk/gqlube"
   },
   "scripts": {
     "clean": "lerna run clean --stream --parallel",
@@ -16,13 +16,12 @@
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "docs": "rimraf docs && typedoc --tsconfig './tsconfig.typedoc.json'",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "semantic-release": "lerna-semantic-release pre && lerna-semantic-release post && lerna-semantic-release perform",
+    "semantic-release": "semantic-release",
     "commit": "git-cz"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit",
-      "pre-push": "npm test"
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
     }
   },
   "commitlint": {
@@ -71,6 +70,11 @@
     "typedoc": "^0.15.0",
     "typedoc-plugin-lerna-packages": "^0.1.6",
     "typescript": "^3.5.3",
-    "validate-commit-msg": "^2.14.0"
+    "validate-commit-msg": "^2.14.0",
+    "semantic-release": "^19.0.2"
+  },
+  "version": "0.0.0-development",
+  "publishConfig": {
+    "access": "restricted"
   }
 }
