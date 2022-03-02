@@ -12,17 +12,17 @@ export type Interceptor<TArgs extends PossibleInterceptorArgs> = {
 
 const internalRecursiveProxy = <
   TInterceptorArgs extends PossibleInterceptorArgs,
-  TQueryShape extends object
+  TQueryShape extends object,
 >(
   interceptor?: Interceptor<TInterceptorArgs>,
   path: string[] = [],
 ): TQueryShape => {
   // tslint:disable-next-line:no-empty
-  return (new Proxy<TQueryShape>(function() {} as TQueryShape, {
+  return new Proxy<TQueryShape>(function () {} as TQueryShape, {
     get(_, field) {
       if (typeof field !== 'string') {
         if (field === Symbol.iterator) {
-          return function*() {
+          return function* () {
             yield internalRecursiveProxy(interceptor, [...path, '0']);
           };
         }
@@ -49,13 +49,8 @@ const internalRecursiveProxy = <
       return ['0', 'prototype'];
     },
 
-    has() {
-      return true;
-    },
-
     getOwnPropertyDescriptor(target, key) {
       const descriptor = Reflect.getOwnPropertyDescriptor(target, key) || {
-        get: () => this.get?.(target, key, target),
         enumerable: true,
         configurable: true,
       };
@@ -63,12 +58,12 @@ const internalRecursiveProxy = <
       Object.defineProperty(target, key, descriptor);
       return descriptor;
     },
-  }) as unknown) as TQueryShape;
+  }) as unknown as TQueryShape;
 };
 
 export const deepProxy = <
   TInterceptorArgs extends PossibleInterceptorArgs,
-  TQueryShape extends object
+  TQueryShape extends object,
 >(
   interceptor?: Interceptor<TInterceptorArgs>,
 ) => {
