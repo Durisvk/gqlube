@@ -73,6 +73,5 @@ describe('unit | query', () => {
     expect(visitorMock).toHaveBeenNthCalledWith(2, expect.anything(), '2', ['1']);
     expect(visitorMock).toHaveBeenNthCalledWith(3, expect.anything(), '3', ['1', '2']);
     expect(visitorMock).toHaveBeenNthCalledWith(4, expect.anything(), '4', ['1', '2', '3']);
-    console.log(visitorMock.mock.calls);
   });
 });
