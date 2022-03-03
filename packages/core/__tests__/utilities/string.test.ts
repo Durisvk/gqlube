@@ -1,4 +1,4 @@
-import { appendIncrementalPostfix, capitalize, indent } from '../src/utilities/string';
+import { appendIncrementalPostfix, capitalize, indent } from '../../src/utilities/string';
 
 describe('unit | string', () => {
   describe('appendIncrementalPostfix', () => {

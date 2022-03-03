@@ -1,4 +1,4 @@
-import { applyAliasesToObject } from '../src/utilities/object';
+import { applyAliasesToObject } from '../../src/utilities/object';
 
 describe('unit | object', () => {
   describe('appendIncrementalPostfix', () => {
