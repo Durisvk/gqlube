@@ -3,6 +3,9 @@
   "compilerOptions": {
     "rootDir": "src"
   },
-  "include": ["src", "__tests__/string.test.ts", "__tests__/stringBuilder.test.ts"],
+  "include": [
+    "src",
+    "__tests__/utilities/string.t__tests__/utilities/stringBuilder.test.tser.test.ts"
+  ],
   "exclude": ["__tests__", "node_modules"]
 }

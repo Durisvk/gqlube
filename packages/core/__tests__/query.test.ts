@@ -58,7 +58,7 @@ describe('unit | query', () => {
     expect(q.getRootFieldNames()).toEqual(['hello', 'there']);
   });
 
-  it('should getRootFieldNames when multiple even nested fields are appended', () => {
+  it('should run visitor while traversing when multiple even nested fields are appended', () => {
     const q = query({ rootType: 'Query' });
     q.appendField([], '1');
     q.appendField(['1'], '2');
@@ -69,9 +69,41 @@ describe('unit | query', () => {
     q.traverse(visitorMock);
 
     expect(visitorMock).toHaveBeenCalledTimes(4);
-    expect(visitorMock).toHaveBeenNthCalledWith(1, expect.anything(), '1', []);
-    expect(visitorMock).toHaveBeenNthCalledWith(2, expect.anything(), '2', ['1']);
-    expect(visitorMock).toHaveBeenNthCalledWith(3, expect.anything(), '3', ['1', '2']);
-    expect(visitorMock).toHaveBeenNthCalledWith(4, expect.anything(), '4', ['1', '2', '3']);
+    expect(visitorMock).toHaveBeenNthCalledWith(1, expect.anything(), '1', [], expect.anything());
+    expect(visitorMock).toHaveBeenNthCalledWith(
+      2,
+      expect.anything(),
+      '2',
+      ['1'],
+      expect.anything(),
+    );
+    expect(visitorMock).toHaveBeenNthCalledWith(
+      3,
+      expect.anything(),
+      '3',
+      ['1', '2'],
+      expect.anything(),
+    );
+    expect(visitorMock).toHaveBeenNthCalledWith(
+      4,
+      expect.anything(),
+      '4',
+      ['1', '2', '3'],
+      expect.anything(),
+    );
+  });
+
+  it('should run after callback inside visitor while traversing when multiple even nested fields are appended', () => {
+    const q = query({ rootType: 'Query' });
+    q.appendField([], '1');
+    q.appendField(['1'], '2');
+    q.appendField(['1', '2'], '3');
+    q.appendField(['1', '2', '3'], '4');
+
+    const afterCallback = jest.fn();
+    const visitorMock = jest.fn((_, __, ___, after) => after(afterCallback));
+    q.traverse(visitorMock);
+
+    expect(afterCallback).toHaveBeenCalledTimes(3);
   });
 });

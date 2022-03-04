@@ -97,14 +97,23 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
       return;
     },
 
-    traverse(visitor: (field: FieldMetadata, fieldName: string, path: string[]) => void) {
+    traverse(
+      visitor: (
+        field: FieldMetadata,
+        fieldName: string,
+        path: string[],
+        after: (cb: () => any) => void,
+      ) => void,
+    ) {
       const traverseRecursive = (subShape: QueryShape, path: string[] = []) => {
         for (const fieldName of Object.keys(subShape)) {
           const field = subShape[fieldName as keyof typeof subShape];
+          let afterCallback = () => void 0;
           if (field) {
-            visitor(field, fieldName, path);
+            visitor(field, fieldName, path, (cb) => (afterCallback = cb));
             if (field.children) {
               traverseRecursive(field.children, [...path, fieldName]);
+              afterCallback();
             }
           }
         }
@@ -131,6 +140,8 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
       return parent[fieldName];
     },
 
+    isEmpty: () => Object.keys(shape).length === 0,
+    getRootTypeName: () => rootType,
     getRootFieldNames: () => Object.keys(shape),
   };
 };
