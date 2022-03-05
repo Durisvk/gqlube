@@ -6,6 +6,10 @@ export type RootType = 'Query' | 'Mutation' | 'Subscription';
 
 type GraphQLPrimitiveTypes = 'ID' | 'String' | 'Int' | 'Float';
 type GraphQLVariableType = `${GraphQLPrimitiveTypes | string}${'!' | ''}`;
+export type GraphQLResult<TDataShape extends object = object> = {
+  data: TDataShape;
+  errors: object[];
+};
 export type VariableDefinition = `${string}${' ' | ''}:${' ' | ''}${GraphQLVariableType}`;
 
 export type VariablesDefinitionsType = {
@@ -37,7 +41,7 @@ export type FetcherInput<
 
 export type Fetcher<
   TVariables extends VariablesType,
-  TResult extends { data: object; errors: object[] },
+  TResult extends GraphQLResult,
   TQuery extends string = string,
   TOperationName extends string = string,
 > = (input: FetcherInput<TVariables, TQuery, TOperationName>) => Promise<TResult>;
