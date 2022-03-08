@@ -5,7 +5,7 @@
   },
   "include": [
     "src",
-    "__tests__/utilities/string.t__tests__/utilities/stringBuilder.test.tser.test.ts"
+    "__tests__/unit/utilities/string.t__tests__/utilities/stringBuilder.test.tser.test.ts"
   ],
   "exclude": ["__tests__", "node_modules"]
 }

@@ -1,0 +1,5 @@
+- [ ] Support map
+- [ ] Implement error handling (errors/GraphQLError)
+- [ ] Implement loading
+- [ ] Support unions
+- [ ] Support fragments

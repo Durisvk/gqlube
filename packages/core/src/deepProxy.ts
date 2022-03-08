@@ -2,12 +2,13 @@
 
 import * as assert from 'assert';
 import { AccessOfInvalidFieldTypeError } from './errors/AccessOfInvalidFieldTypeError';
+import { INFINITY_SYMBOL } from './utilities/string';
 
 type PossibleInterceptorArgs = unknown[];
 
 export type Interceptor<TArgs extends PossibleInterceptorArgs> = {
-  get: (path: string[], field: string) => void;
-  call: (path: string[], field: string, args: TArgs) => void;
+  get: (path: string[], field: string) => unknown;
+  call: (path: string[], field: string, args: TArgs) => unknown;
 };
 
 const internalRecursiveProxy = <
@@ -23,7 +24,8 @@ const internalRecursiveProxy = <
       if (typeof field !== 'string') {
         if (field === Symbol.iterator) {
           return function* () {
-            yield internalRecursiveProxy(interceptor, [...path, '0']);
+            interceptor?.get(path, INFINITY_SYMBOL);
+            yield internalRecursiveProxy(interceptor, [...path, INFINITY_SYMBOL]);
           };
         }
         throw new AccessOfInvalidFieldTypeError(
@@ -31,7 +33,8 @@ const internalRecursiveProxy = <
         );
       }
 
-      interceptor?.get(path, field);
+      const returnValue = interceptor?.get(path, field);
+      if (returnValue) return returnValue;
 
       return internalRecursiveProxy(interceptor, [...path, field]);
     },
@@ -40,13 +43,15 @@ const internalRecursiveProxy = <
       const lastField = path[path.length - 1];
 
       assert(lastField, `Cannot invoke root as a function.`);
-      interceptor?.call(path.slice(0, -1), lastField, args as TInterceptorArgs);
+
+      const returnValue = interceptor?.call(path.slice(0, -1), lastField, args as TInterceptorArgs);
+      if (returnValue) return returnValue;
 
       return internalRecursiveProxy(interceptor, path);
     },
 
     ownKeys() {
-      return ['0', 'prototype'];
+      return [INFINITY_SYMBOL, 'prototype'];
     },
 
     getOwnPropertyDescriptor(target, key) {

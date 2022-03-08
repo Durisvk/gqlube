@@ -6,7 +6,7 @@ import { stringBuilder } from './utilities/stringBuilder';
 import type { Query } from './query';
 import type { FieldMetadata, RootType } from './types';
 
-export const generator = () => {
+export const generator = (query: Query) => {
   const variablesHarvester = () => {
     const variableRegistry = uniqueRegistry();
     let types: {
@@ -82,7 +82,14 @@ export const generator = () => {
   };
 
   return {
-    produceQuery: (query: Query) => {
+    produceOperationName: () => operationName(query.getRootFieldNames(), query.getRootTypeName()),
+    produceVariables: () => {
+      const { visitor, getVariables } = variablesHarvester();
+      query.traverse(visitor);
+
+      return getVariables();
+    },
+    produceQuery: () => {
       if (query.isEmpty()) return;
 
       const builder = stringBuilder(`${query.getRootTypeName().toLowerCase()} `);
@@ -93,5 +100,9 @@ export const generator = () => {
       builder.append('}\n');
       return builder.build();
     },
+
+    isReady: () => query.isEmpty(),
   };
 };
+
+export type Generator = ReturnType<typeof generator>;

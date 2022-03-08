@@ -1,4 +1,4 @@
-import { applyAliasesToObject } from '../../src/utilities/object';
+import { accessNestedField, applyAliasesToObject, isObject } from '../../../src/utilities/object';
 
 describe('unit | object', () => {
   describe('appendIncrementalPostfix', () => {
@@ -35,5 +35,31 @@ describe('unit | object', () => {
         expect(applyAliasesToObject(obj as any, aliases)).toEqual(expectedOutput);
       },
     );
+  });
+
+  describe('accessNestedField', () => {
+    it.each([
+      [{ a: { b: { c: 1 } } }, ['a', 'b'], 'c', 1],
+      [{}, ['a', 'b'], 'c', undefined],
+      [{ a: { b: 1 } }, ['a', 'c'], 'd', undefined],
+      [{ a: { b: { c: { d: 1 } } } }, ['b', 'c'], 'd', undefined],
+    ])(
+      'should access a nested field on object %s at path %s and field %s and return a value %s',
+      (obj, path, field, expectedOutput) => {
+        expect(accessNestedField(obj, path, field)).toEqual(expectedOutput);
+      },
+    );
+  });
+
+  describe('isObject', () => {
+    it.each([
+      [false, typeof 'str', 'str'],
+      [false, typeof 11, 11],
+      [false, typeof true, true],
+      [true, typeof {}, {}],
+      [true, typeof [], []],
+    ])('should return %s for type %s and value %s', (expectedOutput, _, val) => {
+      expect(isObject(val)).toEqual(expectedOutput);
+    });
   });
 });

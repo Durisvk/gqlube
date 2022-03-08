@@ -12,3 +12,7 @@ export const appendIncrementalPostfix = (str: `${string}${`_${number}` | ''}`) =
 
   return `${str.slice(0, str.length - `_${currentPostfix}`.length)}_${currentPostfix + 1}`;
 };
+
+export const INFINITY_SYMBOL = '∞';
+
+export const isNumeric = (str: string | number) => !isNaN(Number(str)) || str === INFINITY_SYMBOL;

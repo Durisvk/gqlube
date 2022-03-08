@@ -1,5 +1,7 @@
 import * as assert from 'assert';
 import type { FieldMetadata, QueryShape, RootType, VariablesDefinitionsType } from './types';
+import { restAndTail } from './utilities/array';
+import { isNumeric } from './utilities/string';
 
 const INTERNALS = Symbol('Internal information for query');
 
@@ -19,6 +21,8 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
   const findTraversePath = (path: string[]) => {
     let currentPointer: QueryShape | undefined = shape;
     for (const subfield of path) {
+      if (isNumeric(subfield)) continue;
+
       const subfieldMetadata: FieldMetadata | undefined = currentPointer?.[subfield];
 
       assert(
@@ -51,9 +55,26 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
       );
 
       const fieldPointer = parent[field];
+
+      if (isNumeric(field)) {
+        const [grandParentPath, parentFieldName] = restAndTail(path);
+        const grandParent = findTraversePath(grandParentPath);
+
+        const parentField = grandParent
+          ? grandParent[parentFieldName as keyof typeof grandParent]
+          : undefined;
+
+        if (!parentField) return fieldPointer;
+
+        grandParent[parentFieldName as keyof typeof grandParent].iterable = true;
+        return fieldPointer;
+      }
+
       if (!fieldPointer) {
         parent[field] = {};
       }
+
+      return fieldPointer;
     },
 
     setVariables: <TVariableDefinitions extends VariablesDefinitionsType>(
@@ -92,6 +113,7 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
         ...parent[field],
         variableTypes: types,
         variables,
+        callable: true,
       };
 
       return;
@@ -123,8 +145,7 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     },
 
     accessField: (path: string[]) => {
-      const basePath = path.slice(0, path.length - 1);
-      const fieldName = [...path].pop();
+      const [basePath, fieldName] = restAndTail(path);
 
       assert(fieldName, `InvalidArgument: Empty path passed into accessField ${path}`);
 

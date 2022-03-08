@@ -1,6 +1,7 @@
 'use strict';
 
-import { deepProxy } from '../src/deepProxy';
+import { deepProxy } from '../../src/deepProxy';
+import { INFINITY_SYMBOL } from '../../src/utilities/string';
 
 describe('unit | deepProxy', () => {
   it('should access a regular string field inside a proxy and interceptor should be invoked', () => {
@@ -117,7 +118,7 @@ describe('unit | deepProxy', () => {
       expect(iterated.value).toBeDefined();
     }
 
-    expect(interceptor.get).toHaveBeenCalledWith(['iterator', '0'], 'value');
+    expect(interceptor.get).toHaveBeenCalledWith(['iterator', INFINITY_SYMBOL], 'value');
   });
   it('should act as an array', () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
@@ -135,6 +136,25 @@ describe('unit | deepProxy', () => {
       expect(iterated.value).toBeDefined();
     }
 
-    expect(interceptor.get).toHaveBeenCalledWith(['iterator', '0'], 'value');
+    expect(interceptor.get).toHaveBeenCalledWith(['iterator', INFINITY_SYMBOL], 'value');
+  });
+
+  it('should get access a field of an array', () => {
+    const interceptor = { get: jest.fn(), call: jest.fn() };
+    const proxy = deepProxy<unknown[], [[[{ value: string }]]]>(interceptor);
+
+    const x = proxy[0][0][0];
+    interceptor.get.mockReset();
+
+    expect(x.value).toBeDefined();
+
+    expect(interceptor.get).toHaveBeenCalledWith(['0', '0', '0'], 'value');
+  });
+
+  it('should return a value if interceptor returns some valid defined value', () => {
+    const valueSymbol = Symbol('value');
+    const interceptor = { get: jest.fn(() => valueSymbol), call: jest.fn() };
+    const proxy = deepProxy<unknown[], { x: Symbol }>(interceptor);
+    expect(proxy.x).toEqual(valueSymbol);
   });
 });

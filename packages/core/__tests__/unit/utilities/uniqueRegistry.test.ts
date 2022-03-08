@@ -1,4 +1,4 @@
-import { uniqueRegistry } from '../../src/utilities/uniqueRegistry';
+import { uniqueRegistry } from '../../../src/utilities/uniqueRegistry';
 
 describe('unit | uniqueRegistry', () => {
   it('should work just like normal registry when there are no duplicates', () => {

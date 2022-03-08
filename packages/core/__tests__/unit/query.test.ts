@@ -1,6 +1,6 @@
 'use strict';
 
-import { query } from '../src/query';
+import { query } from '../../src/query';
 
 describe('unit | query', () => {
   it('should appendField and then accessField at root level', () => {
@@ -60,45 +60,45 @@ describe('unit | query', () => {
 
   it('should run visitor while traversing when multiple even nested fields are appended', () => {
     const q = query({ rootType: 'Query' });
-    q.appendField([], '1');
-    q.appendField(['1'], '2');
-    q.appendField(['1', '2'], '3');
-    q.appendField(['1', '2', '3'], '4');
+    q.appendField([], 'a');
+    q.appendField(['a'], 'b');
+    q.appendField(['a', 'b'], 'c');
+    q.appendField(['a', 'b', 'c'], 'd');
 
     const visitorMock = jest.fn();
     q.traverse(visitorMock);
 
     expect(visitorMock).toHaveBeenCalledTimes(4);
-    expect(visitorMock).toHaveBeenNthCalledWith(1, expect.anything(), '1', [], expect.anything());
+    expect(visitorMock).toHaveBeenNthCalledWith(1, expect.anything(), 'a', [], expect.anything());
     expect(visitorMock).toHaveBeenNthCalledWith(
       2,
       expect.anything(),
-      '2',
-      ['1'],
+      'b',
+      ['a'],
       expect.anything(),
     );
     expect(visitorMock).toHaveBeenNthCalledWith(
       3,
       expect.anything(),
-      '3',
-      ['1', '2'],
+      'c',
+      ['a', 'b'],
       expect.anything(),
     );
     expect(visitorMock).toHaveBeenNthCalledWith(
       4,
       expect.anything(),
-      '4',
-      ['1', '2', '3'],
+      'd',
+      ['a', 'b', 'c'],
       expect.anything(),
     );
   });
 
   it('should run after callback inside visitor while traversing when multiple even nested fields are appended', () => {
     const q = query({ rootType: 'Query' });
-    q.appendField([], '1');
-    q.appendField(['1'], '2');
-    q.appendField(['1', '2'], '3');
-    q.appendField(['1', '2', '3'], '4');
+    q.appendField([], 'a');
+    q.appendField(['a'], 'b');
+    q.appendField(['a', 'b'], 'c');
+    q.appendField(['a', 'b', 'c'], 'd');
 
     const afterCallback = jest.fn();
     const visitorMock = jest.fn((_, __, ___, after) => after(afterCallback));

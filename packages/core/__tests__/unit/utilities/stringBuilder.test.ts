@@ -1,4 +1,4 @@
-import { stringBuilder } from '../../src/utilities/stringBuilder';
+import { stringBuilder } from '../../../src/utilities/stringBuilder';
 
 describe('unit | stringBuilder', () => {
   it('should build a simple string', () => {

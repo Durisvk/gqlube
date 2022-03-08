@@ -1,19 +1,21 @@
-import { generator } from '../../core/src/generator';
-import { query } from '../src/query';
+import { generator } from '../../../core/src/generator';
+import { query } from '../../src/query';
 
 describe('unit | test', () => {
   it('should return undefined for empty query', () => {
-    const g = generator();
     const q = query({ rootType: 'Query' });
-    expect(g.produceQuery(q)).toBeUndefined();
+    const g = generator(q);
+
+    expect(g.produceQuery()).toBeUndefined();
   });
 
   it('should generate a very simple query', () => {
-    const g = generator();
     const q = query({ rootType: 'Query' });
+    const g = generator(q);
+
     q.appendField([], 'rootField');
     q.appendField(['rootField'], 'nestedField');
-    expect(g.produceQuery(q)).toEqual(
+    expect(g.produceQuery()).toEqual(
       `query RootFieldQuery {
   rootField {
     nestedField
@@ -24,7 +26,6 @@ describe('unit | test', () => {
   });
 
   it('should generate a very simple query with variables', () => {
-    const g = generator();
     const q = query({ rootType: 'Query' });
     q.appendField([], 'rootField');
     q.appendField(['rootField'], 'nestedField');
@@ -34,7 +35,9 @@ describe('unit | test', () => {
       'variable4: Boolean!': true,
     });
 
-    expect(g.produceQuery(q)).toEqual(
+    const g = generator(q);
+
+    expect(g.produceQuery()).toEqual(
       `query RootFieldQuery($variable1: ID!, $variable2: String!, $variable3: Int, $variable4: Boolean!) {
   rootField(variable1: $variable1, variable2: $variable2) {
     nestedField(variable3: $variable3, variable4: $variable4)
@@ -45,7 +48,6 @@ describe('unit | test', () => {
   });
 
   it('should generate a more complex nested query with multiple root fields and variables with duplicate namings', () => {
-    const g = generator();
     const q = query({ rootType: 'Query' });
     q.appendField([], 'rootFieldA');
     q.appendField(['rootFieldA'], 'level1A');
@@ -81,8 +83,9 @@ describe('unit | test', () => {
     q.setVariables([], 'rootFieldC', {
       'variable6: Float!': 2.81,
     });
+    const g = generator(q);
 
-    expect(g.produceQuery(q)).toEqual(
+    expect(g.produceQuery()).toEqual(
       `query RootFieldARootFieldBRootFieldCQuery($variable1: ID!, $variable2: String!, $variable3: Int, $variable4: Boolean!, $variable2_1: String, $variable6: Float!) {
   rootFieldA(variable1: $variable1, variable2: $variable2) {
     level1A
