@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import { Interceptor } from './deepProxy';
 import { Query } from './query';
 import { VariablesDefinitionsType } from './types';

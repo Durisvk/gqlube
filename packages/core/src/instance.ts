@@ -9,7 +9,7 @@ import { GraphQLError } from './errors/GraphQLError';
 
 type UnknownInterceptorArgs = unknown[];
 
-export type Options<TResult extends GraphQLResult = GraphQLResult> = InitialQueryOptions & {
+export type InstanceOptions<TResult extends GraphQLResult = GraphQLResult> = InitialQueryOptions & {
   onError?: (error: GraphQLError) => unknown;
   fetcher: FetcherOptions<TResult>;
 };
@@ -20,8 +20,26 @@ export type QueryControls<TResult extends GraphQLResult = GraphQLResult> = {
   promise: () => Promise<TResult | undefined>;
 };
 
+/**
+ * @example
+ * ```ts
+ * const [q, { promise }] = instance({
+ *   rootType: 'Query',
+ *   fetcher: { url: 'https://countries.trevorblades.com' },
+ *   operationName: 'SimpleCountryQuery',
+ * });
+ *
+ * const countries = q.countries({ 'filter: CountryFilterInput': { code: { eq: 'CZ' } } })
+ * countries[0].name;
+ *
+ * await promise();
+ *
+ * countries[0].name; // Czech Republic
+ *
+ * ```
+ */
 export const instance = <TQuery extends object, TResult extends GraphQLResult = GraphQLResult>(
-  options: Options<TResult>,
+  options: InstanceOptions<TResult>,
 ): [TQuery, QueryControls] => {
   const q = query(options);
   const i = interceptor<TResult['data']>(q);
