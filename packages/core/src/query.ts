@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import type { FieldMetadata, QueryShape, RootType, VariablesDefinitionsType } from './types';
 import { restAndTail } from './utilities/array';
 import { isNumeric } from './utilities/string';

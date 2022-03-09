@@ -1,6 +1,6 @@
 'use strict';
 
-import * as assert from 'assert';
+import assert from 'assert';
 import { AccessOfInvalidFieldTypeError } from './errors/AccessOfInvalidFieldTypeError';
 import { INFINITY_SYMBOL } from './utilities/string';
 

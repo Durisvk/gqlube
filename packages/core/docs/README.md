@@ -1,3 +1,5 @@
+@gqlube/core / [Exports](modules.md)
+
 # `@gqlube/core`
 
 > TODO: description
@@ -6,7 +8,6 @@
 
 ```ts
 const { instance } = require('@gqlube/core');
-
 
 const main = async () => {
 const [q, { promise }] = instance({

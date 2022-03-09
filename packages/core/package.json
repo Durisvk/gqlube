@@ -1,5 +1,5 @@
 {
-  "name": "@lubegql/core",
+  "name": "@gqlube/core",
   "version": "0.0.1",
   "description": "",
   "keywords": [
@@ -10,6 +10,7 @@
   "homepage": "https://github.com/Durisvk/gqlube#readme",
   "license": "ISC",
   "main": "dist/core.umd.js",
+  "typedocMain": "./src/core.ts",
   "module": "dist/core.es5.js",
   "typings": "dist/types/core.d.ts",
   "directories": {
@@ -31,7 +32,8 @@
     "precommit": "lint-staged",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache"
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "docs": "typedoc ."
   },
   "lint-staged": {
     "{src,__tests__}/**/*.ts": [
@@ -46,6 +48,8 @@
     "assert": "^2.0.0"
   },
   "devDependencies": {
-    "@types/assert": "^1.5.6"
+    "@types/assert": "^1.5.6",
+    "typedoc": "^0.22.13",
+    "typedoc-plugin-markdown": "^3.11.14"
   }
 }
