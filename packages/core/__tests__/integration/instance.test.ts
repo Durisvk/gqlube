@@ -59,4 +59,27 @@ describe('integration | instance', () => {
     expect(location.name).toEqual('Earth (C-137)');
     expect(location.dimension).toEqual('Dimension C-137');
   });
+
+  it('should handle a graphql syntax error', async () => {
+    const errorHandler = jest.fn();
+
+    const [q, { promise, status }] = instance<any, any>({
+      onError: errorHandler,
+      rootType: 'Query',
+      fetcher: { url: 'https://rickandmortyapi.com/graphql' },
+      operationName: 'InvalidRickAndMortyQuery',
+    });
+
+    q.character({ 'id: ID!': 20 }).nonExistingField;
+
+    await promise();
+
+    expect(status()).toEqual('ERROR');
+    expect(errorHandler).toHaveBeenCalled();
+    expect(
+      errorHandler.mock.calls[0][0].message.indexOf(
+        'Cannot query field "nonExistingField" on type "Character"',
+      ),
+    ).toBeGreaterThan(-1);
+  });
 });

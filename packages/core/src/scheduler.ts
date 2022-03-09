@@ -3,7 +3,7 @@ import { Fetcher, GraphQLResult } from './types';
 
 const INTERNALS = Symbol('Internal information for scheduler');
 
-export type SchedulerStatus = 'HARVESTING' | 'FETCHING' | 'DONE' | 'REFETCHING';
+export type SchedulerStatus = 'HARVESTING' | 'FETCHING' | 'DONE' | 'ERROR' | 'REFETCHING';
 type SchedulerFetchingStatus = Extract<SchedulerStatus, 'FETCHING' | 'REFETCHING'>;
 
 export const scheduler = <TResult extends GraphQLResult>(
@@ -58,7 +58,7 @@ export const scheduler = <TResult extends GraphQLResult>(
     refetch: () => {
       scheduleFetching('REFETCHING');
     },
-
+    setStatus: (status: 'ERROR') => (internals.status = status),
     getStatus: () => internals.status,
     promise: async () => {
       await internals.waitForEmptyStackPromise;

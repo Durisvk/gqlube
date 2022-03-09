@@ -7,7 +7,10 @@ export type FetcherOptions<
   TVariables extends VariablesType = VariablesType,
 > = Fetcher<TResult, TVariables> | DefaultFetcherOptions;
 
-export const defaultFetcher = <TVariables extends VariablesType, TResult extends GraphQLResult>({
+export const defaultFetcher = <
+  TResult extends GraphQLResult = GraphQLResult,
+  TVariables extends VariablesType = VariablesType,
+>({
   url,
   ...options
 }: DefaultFetcherOptions): Fetcher<TResult, TVariables> => {

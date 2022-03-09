@@ -1,5 +1,7 @@
+import { GraphQLResultError } from '../types';
+
 export class GraphQLError extends Error {
-  constructor(errors: object[]) {
-    super(JSON.stringify(errors));
+  constructor(public readonly errors: GraphQLResultError[]) {
+    super(errors.map(({ message }) => message).join('\n'));
   }
 }

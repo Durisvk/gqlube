@@ -6,8 +6,17 @@ export type RootType = 'Query' | 'Mutation' | 'Subscription';
 
 type GraphQLPrimitiveTypes = 'ID' | 'String' | 'Int' | 'Float';
 type GraphQLVariableType = `${GraphQLPrimitiveTypes | string}${'!' | ''}`;
-type GraphQLError = object;
-export type GraphQLResult<TDataShape extends object = object, TErrorShape = GraphQLError[]> = {
+
+export type GraphQLResultError = {
+  message: string;
+  locations: { line: number; column: number }[];
+  extensions: { code: string };
+};
+
+export type GraphQLResult<
+  TDataShape extends object = object,
+  TErrorShape extends GraphQLResultError = GraphQLResultError,
+> = {
   data: TDataShape;
   errors: TErrorShape[];
 };
