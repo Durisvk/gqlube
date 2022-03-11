@@ -53,7 +53,7 @@ Please do not use it yet, rather help with contribution! Your engineering excell
 
 ## Where to go next
 
-... TODO ...
+[Visit packages documentation](./docs/index.md)
 
 <br />
 

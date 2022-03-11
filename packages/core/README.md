@@ -1,6 +1,6 @@
 # `@gqlube/core`
 
-> TODO: description
+> Effortless Auto-generating and Auto-fetching from GraphQL Schema based on Usage
 
 ## Usage
 

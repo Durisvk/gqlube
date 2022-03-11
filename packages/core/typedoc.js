@@ -10,7 +10,7 @@ Handlebars.registerHelper('relativeURL', function (url) {
 module.exports = {
   entryPointStrategy: 'packages',
   entryPoints: ['packages/core'],
-  out: 'docs',
+  out: '../../docs/core',
   exclude: [
     '**/node_modules/**',
     '**/rollup.*.*(ts|js)',
