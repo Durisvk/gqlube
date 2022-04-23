@@ -1,6 +1,6 @@
 {
   "name": "@gqlube/core",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "Core mechanics and API for GQLube library",
   "keywords": [
     "gqlube",
@@ -11,9 +11,10 @@
   "homepage": "https://github.com/Durisvk/gqlube#readme",
   "license": "ISC",
   "main": "dist/index.umd.js",
+  "types": "./lib/main.d.ts",
+  "typings": "dist/types/index.d.ts",
   "typedocMain": "./src/index.ts",
   "module": "dist/index.es5.js",
-  "typings": "dist/types/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
