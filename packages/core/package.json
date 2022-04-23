@@ -1,6 +1,6 @@
 {
   "name": "@gqlube/core",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "Core mechanics and API for GQLube library",
   "keywords": [
     "gqlube",
@@ -53,5 +53,6 @@
   },
   "devDependencies": {
     "@types/assert": "^1.5.6"
-  }
+  },
+  "gitHead": "ba38e00372b71d067b9e2fbf6f27e3643252b724"
 }
