@@ -1,0 +1,57 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "clean": "lerna run clean --stream --parallel",
+    "prebuild": "lerna run prebuild --stream --parallel",
+    "lint": "lerna run lint --stream --parallel",
+    "build": "lerna run build --stream --parallel",
+    "test": "lerna run test --stream --parallel",
+    "test:watch": "lerna run test:watch --stream --parallel",
+    "test:prod": "lerna run test:prod --stream --parallel",
+    "docs": "rimraf docs && lerna run docs --stream --parallel && ts-node tools/gather-docs.ts",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "semantic-release": "semantic-release",
+    "install": "lerna exec npm install",
+    "commit": "git-cz"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-lerna-changelog"
+    },
+    "validate-commit-msg": {
+      "helpMessage": "Commit message violates the rules defined for this project. Please, execute `npm run commit` to generate a correct commit message with `commitizen`"
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "@types/jest": "^27.4.1",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "jest-config": "^27.5.1",
+    "lerna": "^4.0.0",
+    "lint-staged": "^12.3.7",
+    "lodash.camelcase": "^4.3.0",
+    "prettier": "^2.6.1",
+    "rollup": "^2.70.1",
+    "ts-jest": "^27.1.4",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "rollup-plugin-node-builtins": "^2.1.2"
+  }
+}

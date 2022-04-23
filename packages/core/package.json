@@ -1,0 +1,57 @@
+{
+  "name": "@gqlube/core",
+  "version": "0.0.1",
+  "description": "Core mechanics and API for GQLube library",
+  "keywords": [
+    "gqlube",
+    "graphql",
+    "gql"
+  ],
+  "author": "Juraj Carnogursky <durisvk2@gmail.com>",
+  "homepage": "https://github.com/Durisvk/gqlube#readme",
+  "license": "ISC",
+  "main": "dist/index.umd.js",
+  "typedocMain": "./src/index.ts",
+  "module": "dist/index.es5.js",
+  "typings": "dist/types/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Durisvk/gqlube.git"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__tests__/**/*.ts'",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "prebuild": "rimraf dist",
+    "precommit": "lint-staged",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "docs": "typedoc ."
+  },
+  "lint-staged": {
+    "{src,__tests__}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/Durisvk/gqlube/issues"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "cross-fetch": "^3.1.5"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.5.6"
+  }
+}
