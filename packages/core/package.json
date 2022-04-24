@@ -5,7 +5,8 @@
   "keywords": [
     "gqlube",
     "graphql",
-    "gql"
+    "gql",
+    "client"
   ],
   "author": "Juraj Carnogursky <durisvk2@gmail.com>",
   "homepage": "https://github.com/Durisvk/gqlube#readme",
@@ -23,7 +24,8 @@
     "url": "git+https://github.com/Durisvk/gqlube.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public"

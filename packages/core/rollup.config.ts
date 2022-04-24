@@ -1,4 +1,4 @@
-import builtins from "rollup-plugin-node-builtins";
+import nodePolyfills from "rollup-plugin-node-polyfills";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
@@ -25,7 +25,7 @@ export default {
     include: "src/**",
   },
   plugins: [
-    builtins(),
+    nodePolyfills(),
     json(),
     ts({ typescript }),
     commonjs(),
