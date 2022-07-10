@@ -1,28 +1,31 @@
-'use strict';
+"use strict";
 
-import { deepProxy } from '../../src/deepProxy';
-import { INFINITY_SYMBOL } from '../../src/utilities/string';
+import { deepProxy } from "../../src/deepProxy";
+import { INFINITY_SYMBOL } from "../../src/utilities/string";
 
-describe('unit | deepProxy', () => {
-  it('should access a regular string field inside a proxy and interceptor should be invoked', () => {
+describe("unit | deepProxy", () => {
+  it("should access a regular string field inside a proxy and interceptor should be invoked", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
 
-    const proxy = deepProxy<unknown[], { field1: string; anotherField: string }>(interceptor);
+    const proxy = deepProxy<
+      unknown[],
+      { field1: string; anotherField: string }
+    >(interceptor);
     proxy.field1;
 
     expect(interceptor.get).toHaveBeenCalledTimes(1);
-    expect(interceptor.get).toHaveBeenCalledWith([], 'field1');
+    expect(interceptor.get).toHaveBeenCalledWith([], "field1");
 
     proxy.field1;
     expect(interceptor.get).toHaveBeenCalledTimes(2);
-    expect(interceptor.get).toHaveBeenLastCalledWith([], 'field1');
+    expect(interceptor.get).toHaveBeenLastCalledWith([], "field1");
 
     proxy.anotherField;
     expect(interceptor.get).toHaveBeenCalledTimes(3);
-    expect(interceptor.get).toHaveBeenLastCalledWith([], 'anotherField');
+    expect(interceptor.get).toHaveBeenLastCalledWith([], "anotherField");
   });
 
-  it('should access a nested field under proxy and interceptor should be invoked', () => {
+  it("should access a nested field under proxy and interceptor should be invoked", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
 
     const proxy = deepProxy<
@@ -34,19 +37,25 @@ describe('unit | deepProxy', () => {
     proxy.field1.nested1Level;
 
     expect(interceptor.get).toHaveBeenCalledTimes(2);
-    expect(interceptor.get).toHaveBeenCalledWith([], 'field1');
-    expect(interceptor.get).toHaveBeenLastCalledWith(['field1'], 'nested1Level');
+    expect(interceptor.get).toHaveBeenCalledWith([], "field1");
+    expect(interceptor.get).toHaveBeenLastCalledWith(
+      ["field1"],
+      "nested1Level"
+    );
 
     proxy.field1.obj.nested2Levels;
     expect(interceptor.get).toHaveBeenCalledTimes(5);
-    expect(interceptor.get).toHaveBeenNthCalledWith(3, [], 'field1');
-    expect(interceptor.get).toHaveBeenNthCalledWith(4, ['field1'], 'obj');
-    expect(interceptor.get).toHaveBeenLastCalledWith(['field1', 'obj'], 'nested2Levels');
+    expect(interceptor.get).toHaveBeenNthCalledWith(3, [], "field1");
+    expect(interceptor.get).toHaveBeenNthCalledWith(4, ["field1"], "obj");
+    expect(interceptor.get).toHaveBeenLastCalledWith(
+      ["field1", "obj"],
+      "nested2Levels"
+    );
   });
 
-  it('should throw an error if trying to access field using symbol', () => {
+  it("should throw an error if trying to access field using symbol", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const mySymbol = Symbol('hello');
+    const mySymbol = Symbol("hello");
 
     const proxy = deepProxy<
       unknown[],
@@ -62,7 +71,7 @@ describe('unit | deepProxy', () => {
     expect(accessOfInvalidFieldType).toThrow();
   });
 
-  it('should detect a function call', () => {
+  it("should detect a function call", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const proxy = deepProxy<
       unknown[],
@@ -73,12 +82,12 @@ describe('unit | deepProxy', () => {
       }
     >(interceptor);
 
-    proxy.x.y('a', 1);
+    proxy.x.y("a", 1);
 
-    expect(interceptor.call).toHaveBeenCalledWith(['x'], 'y', ['a', 1]);
+    expect(interceptor.call).toHaveBeenCalledWith(["x"], "y", ["a", 1]);
   });
 
-  it('should allow enumeration over proxy', () => {
+  it("should allow enumeration over proxy", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const proxy = deepProxy<
       unknown[],
@@ -102,7 +111,7 @@ describe('unit | deepProxy', () => {
     }).not.toThrowError();
   });
 
-  it('should get nested value after enumeration over proxy', () => {
+  it("should get nested value after enumeration over proxy", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const proxy = deepProxy<
       unknown[],
@@ -118,9 +127,12 @@ describe('unit | deepProxy', () => {
       expect(iterated.value).toBeDefined();
     }
 
-    expect(interceptor.get).toHaveBeenCalledWith(['iterator', INFINITY_SYMBOL], 'value');
+    expect(interceptor.get).toHaveBeenCalledWith(
+      ["iterator", INFINITY_SYMBOL],
+      "value"
+    );
   });
-  it('should act as an array', () => {
+  it("should act as an array", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const proxy = deepProxy<
       unknown[],
@@ -136,10 +148,13 @@ describe('unit | deepProxy', () => {
       expect(iterated.value).toBeDefined();
     }
 
-    expect(interceptor.get).toHaveBeenCalledWith(['iterator', INFINITY_SYMBOL], 'value');
+    expect(interceptor.get).toHaveBeenCalledWith(
+      ["iterator", INFINITY_SYMBOL],
+      "value"
+    );
   });
 
-  it('should get access a field of an array', () => {
+  it("should get access a field of an array", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const proxy = deepProxy<unknown[], [[[{ value: string }]]]>(interceptor);
 
@@ -148,11 +163,11 @@ describe('unit | deepProxy', () => {
 
     expect(x.value).toBeDefined();
 
-    expect(interceptor.get).toHaveBeenCalledWith(['0', '0', '0'], 'value');
+    expect(interceptor.get).toHaveBeenCalledWith(["0", "0", "0"], "value");
   });
 
-  it('should return a value if interceptor returns some valid defined value', () => {
-    const valueSymbol = Symbol('value');
+  it("should return a value if interceptor returns some valid defined value", () => {
+    const valueSymbol = Symbol("value");
     const interceptor = { get: jest.fn(() => valueSymbol), call: jest.fn() };
     const proxy = deepProxy<unknown[], { x: Symbol }>(interceptor);
     expect(proxy.x).toEqual(valueSymbol);

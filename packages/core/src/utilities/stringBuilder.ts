@@ -1,10 +1,10 @@
-export const stringBuilder = (initial = '') => {
+export const stringBuilder = (initial = "") => {
   const strings: string[] = [initial];
 
   return {
-    build: () => strings.join(''),
+    build: () => strings.join(""),
     append(substring: string, newLine = false) {
-      strings.push(`${newLine ? '\n' : ''}${substring}`);
+      strings.push(`${newLine ? "\n" : ""}${substring}`);
       return this;
     },
     prepend(substring: string) {

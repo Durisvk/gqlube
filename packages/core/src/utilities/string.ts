@@ -1,18 +1,24 @@
-export const capitalize = (str: string) => `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+export const capitalize = (str: string) =>
+  `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 
-export const indent = (level: number, indentation = '  ') => {
+export const indent = (level: number, indentation = "  ") => {
   return indentation.repeat(level);
 };
 
-export const appendIncrementalPostfix = (str: `${string}${`_${number}` | ''}`) => {
-  const currentPostfix = Number(str.split('_').pop());
+export const appendIncrementalPostfix = (
+  str: `${string}${`_${number}` | ""}`
+) => {
+  const currentPostfix = Number(str.split("_").pop());
   if (isNaN(currentPostfix)) {
     return `${str}_1`;
   }
 
-  return `${str.slice(0, str.length - `_${currentPostfix}`.length)}_${currentPostfix + 1}`;
+  return `${str.slice(0, str.length - `_${currentPostfix}`.length)}_${
+    currentPostfix + 1
+  }`;
 };
 
-export const INFINITY_SYMBOL = '∞';
+export const INFINITY_SYMBOL = "∞";
 
-export const isNumeric = (str: string | number) => !isNaN(Number(str)) || str === INFINITY_SYMBOL;
+export const isNumeric = (str: string | number) =>
+  !isNaN(Number(str)) || str === INFINITY_SYMBOL;

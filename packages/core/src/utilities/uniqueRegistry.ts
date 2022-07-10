@@ -1,16 +1,26 @@
-import { appendIncrementalPostfix } from './string';
+import { appendIncrementalPostfix } from "./string";
 
-type Aliases<TKey extends string, TAlias extends string = TKey> = Record<TKey, TAlias>;
+type Aliases<TKey extends string, TAlias extends string = TKey> = Record<
+  TKey,
+  TAlias
+>;
 
 export const uniqueRegistry = <TKey extends string, TValue = unknown>() => {
   type RegistryType = Record<TKey, TValue>;
   let registry: RegistryType = {} as RegistryType;
   return {
-    addMany(values: RegistryType, existingAliases: Aliases<TKey> = {} as Aliases<TKey>) {
+    addMany(
+      values: RegistryType,
+      existingAliases: Aliases<TKey> = {} as Aliases<TKey>
+    ) {
       let aliases: Aliases<TKey> = {} as Aliases<TKey>;
 
       for (const key of Object.keys(values)) {
-        const alias = this.add(key as TKey, values[key as TKey], existingAliases[key as TKey]);
+        const alias = this.add(
+          key as TKey,
+          values[key as TKey],
+          existingAliases[key as TKey]
+        );
         if (alias) {
           aliases = { ...aliases, [key as TKey]: alias };
         }

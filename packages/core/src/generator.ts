@@ -1,22 +1,29 @@
-import { uniqueRegistry } from './utilities/uniqueRegistry';
-import { applyAliasesToObject } from './utilities/object';
-import { capitalize, indent } from './utilities/string';
-import { stringBuilder } from './utilities/stringBuilder';
+import { uniqueRegistry } from "./utilities/uniqueRegistry";
+import { applyAliasesToObject } from "./utilities/object";
+import { capitalize, indent } from "./utilities/string";
+import { stringBuilder } from "./utilities/stringBuilder";
 
-import type { Query } from './query';
-import type { FieldMetadata, RootType } from './types';
+import type { Query } from "./query";
+import type { FieldMetadata, RootType } from "./types";
 
 export const generator = (query: Query) => {
   const variablesHarvester = () => {
     const variableRegistry = uniqueRegistry();
     let types: {
-      [name: keyof ReturnType<typeof variableRegistry['getUniquelyNamedRecords']>]: string;
+      [
+        name: keyof ReturnType<
+          typeof variableRegistry["getUniquelyNamedRecords"]
+        >
+      ]: string;
     } = {};
 
     return {
       visitor: (field: FieldMetadata) => {
         if (field.variables) {
-          field.variableAliases = variableRegistry.addMany(field.variables, field.variableAliases);
+          field.variableAliases = variableRegistry.addMany(
+            field.variables,
+            field.variableAliases
+          );
 
           types = {
             ...types,
@@ -32,9 +39,9 @@ export const generator = (query: Query) => {
   };
 
   const operationName = (rootFieldNames: string[], rootType: RootType) =>
-    `${rootFieldNames.map(capitalize).join('')}${rootType}`;
+    `${rootFieldNames.map(capitalize).join("")}${rootType}`;
 
-  const variables = (traverse: Query['traverse']) => {
+  const variables = (traverse: Query["traverse"]) => {
     const { visitor, getVariables, getVariableTypes } = variablesHarvester();
     traverse(visitor);
 
@@ -44,30 +51,32 @@ export const generator = (query: Query) => {
     return variables && variableNames.length > 0
       ? `(${variableNames
           .map((name) => `$${name}: ${types[name as keyof typeof types]}`)
-          .join(', ')})`
-      : '';
+          .join(", ")})`
+      : "";
   };
 
-  const fields = (traverse: Query['traverse']) => {
-    const fieldsBuilder = stringBuilder('\n');
+  const fields = (traverse: Query["traverse"]) => {
+    const fieldsBuilder = stringBuilder("\n");
 
     traverse((field, fieldName, path, after) => {
       const indentationLevel = path.length + 1;
 
       fieldsBuilder.append(`${indent(indentationLevel)}${fieldName}`);
       if (field?.variables && field?.variableAliases) {
-        fieldsBuilder.append('(');
+        fieldsBuilder.append("(");
 
         fieldsBuilder.append(
           Object.keys(field.variables)
             .map(
               (variableName) =>
-                `${variableName}: $${field.variableAliases?.[variableName] ?? variableName}`,
+                `${variableName}: $${
+                  field.variableAliases?.[variableName] ?? variableName
+                }`
             )
-            .join(', '),
+            .join(", ")
         );
 
-        fieldsBuilder.append(')');
+        fieldsBuilder.append(")");
       }
 
       if (field.children) {
@@ -75,14 +84,15 @@ export const generator = (query: Query) => {
         after(() => fieldsBuilder.append(`${indent(indentationLevel)}}\n`));
       }
 
-      fieldsBuilder.append('\n');
+      fieldsBuilder.append("\n");
     });
 
     return fieldsBuilder.build();
   };
 
   return {
-    produceOperationName: () => operationName(query.getRootFieldNames(), query.getRootTypeName()),
+    produceOperationName: () =>
+      operationName(query.getRootFieldNames(), query.getRootTypeName()),
     produceVariables: () => {
       const { visitor, getVariables } = variablesHarvester();
       query.traverse(visitor);
@@ -92,12 +102,16 @@ export const generator = (query: Query) => {
     produceQuery: () => {
       if (query.isEmpty()) return;
 
-      const builder = stringBuilder(`${query.getRootTypeName().toLowerCase()} `);
-      builder.append(operationName(query.getRootFieldNames(), query.getRootTypeName()));
+      const builder = stringBuilder(
+        `${query.getRootTypeName().toLowerCase()} `
+      );
+      builder.append(
+        operationName(query.getRootFieldNames(), query.getRootTypeName())
+      );
       builder.append(variables(query.traverse));
       builder.append(` {`);
       builder.append(fields(query.traverse));
-      builder.append('}\n');
+      builder.append("}\n");
       return builder.build();
     },
 

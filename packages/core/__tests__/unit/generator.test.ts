@@ -1,38 +1,41 @@
-import { generator } from '../../../core/src/generator';
-import { query } from '../../src/query';
+import { generator } from "../../../core/src/generator";
+import { query } from "../../src/query";
 
-describe('unit | test', () => {
-  it('should return undefined for empty query', () => {
-    const q = query({ rootType: 'Query' });
+describe("unit | test", () => {
+  it("should return undefined for empty query", () => {
+    const q = query({ rootType: "Query" });
     const g = generator(q);
 
     expect(g.produceQuery()).toBeUndefined();
   });
 
-  it('should generate a very simple query', () => {
-    const q = query({ rootType: 'Query' });
+  it("should generate a very simple query", () => {
+    const q = query({ rootType: "Query" });
     const g = generator(q);
 
-    q.appendField([], 'rootField');
-    q.appendField(['rootField'], 'nestedField');
+    q.appendField([], "rootField");
+    q.appendField(["rootField"], "nestedField");
     expect(g.produceQuery()).toEqual(
       `query RootFieldQuery {
   rootField {
     nestedField
   }
 }
-`,
+`
     );
   });
 
-  it('should generate a very simple query with variables', () => {
-    const q = query({ rootType: 'Query' });
-    q.appendField([], 'rootField');
-    q.appendField(['rootField'], 'nestedField');
-    q.setVariables([], 'rootField', { 'variable1: ID!': 'value1', 'variable2: String!': 'value2' });
-    q.setVariables(['rootField'], 'nestedField', {
-      'variable3: Int': 3,
-      'variable4: Boolean!': true,
+  it("should generate a very simple query with variables", () => {
+    const q = query({ rootType: "Query" });
+    q.appendField([], "rootField");
+    q.appendField(["rootField"], "nestedField");
+    q.setVariables([], "rootField", {
+      "variable1: ID!": "value1",
+      "variable2: String!": "value2",
+    });
+    q.setVariables(["rootField"], "nestedField", {
+      "variable3: Int": 3,
+      "variable4: Boolean!": true,
     });
 
     const g = generator(q);
@@ -43,45 +46,45 @@ describe('unit | test', () => {
     nestedField(variable3: $variable3, variable4: $variable4)
   }
 }
-`,
+`
     );
   });
 
-  it('should generate a more complex nested query with multiple root fields and variables with duplicate namings', () => {
-    const q = query({ rootType: 'Query' });
-    q.appendField([], 'rootFieldA');
-    q.appendField(['rootFieldA'], 'level1A');
-    q.appendField(['rootFieldA'], 'level1B');
-    q.appendField(['rootFieldA', 'level1B'], 'level2A');
-    q.appendField(['rootFieldA', 'level1B', 'level2A'], 'level3A');
+  it("should generate a more complex nested query with multiple root fields and variables with duplicate namings", () => {
+    const q = query({ rootType: "Query" });
+    q.appendField([], "rootFieldA");
+    q.appendField(["rootFieldA"], "level1A");
+    q.appendField(["rootFieldA"], "level1B");
+    q.appendField(["rootFieldA", "level1B"], "level2A");
+    q.appendField(["rootFieldA", "level1B", "level2A"], "level3A");
 
-    q.appendField(['rootFieldA'], 'level1C');
-    q.appendField(['rootFieldA', 'level1C'], 'level2B');
+    q.appendField(["rootFieldA"], "level1C");
+    q.appendField(["rootFieldA", "level1C"], "level2B");
 
-    q.appendField([], 'rootFieldB');
-    q.appendField(['rootFieldB'], 'level1D');
-    q.appendField(['rootFieldB', 'level1D'], 'level2C');
-    q.appendField(['rootFieldB'], 'level1E');
+    q.appendField([], "rootFieldB");
+    q.appendField(["rootFieldB"], "level1D");
+    q.appendField(["rootFieldB", "level1D"], "level2C");
+    q.appendField(["rootFieldB"], "level1E");
 
-    q.appendField([], 'rootFieldC');
+    q.appendField([], "rootFieldC");
 
-    q.setVariables([], 'rootFieldA', {
-      'variable1: ID!': 'value1',
-      'variable2: String!': 'value2',
+    q.setVariables([], "rootFieldA", {
+      "variable1: ID!": "value1",
+      "variable2: String!": "value2",
     });
-    q.setVariables(['rootFieldA'], 'level1B', {
-      'variable3: Int': 3,
-      'variable4: Boolean!': true,
+    q.setVariables(["rootFieldA"], "level1B", {
+      "variable3: Int": 3,
+      "variable4: Boolean!": true,
     });
-    q.setVariables(['rootFieldA'], 'level1B', {
-      'variable3: Int': 3,
-      'variable4: Boolean!': true,
+    q.setVariables(["rootFieldA"], "level1B", {
+      "variable3: Int": 3,
+      "variable4: Boolean!": true,
     });
-    q.setVariables(['rootFieldA', 'level1B', 'level2A'], 'level3A', {
-      'variable2: String': 'variable5',
+    q.setVariables(["rootFieldA", "level1B", "level2A"], "level3A", {
+      "variable2: String": "variable5",
     });
-    q.setVariables([], 'rootFieldC', {
-      'variable6: Float!': 2.81,
+    q.setVariables([], "rootFieldC", {
+      "variable6: Float!": 2.81,
     });
     const g = generator(q);
 
@@ -106,7 +109,7 @@ describe('unit | test', () => {
   }
   rootFieldC(variable6: $variable6)
 }
-`,
+`
     );
   });
 });

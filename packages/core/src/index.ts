@@ -1,4 +1,4 @@
-export { instance, QueryControls, InstanceOptions } from './instance';
+export { instance, QueryControls, InstanceOptions } from "./instance";
 export {
   RootType,
   VariablesType,
@@ -6,8 +6,8 @@ export {
   FetcherInput,
   GraphQLResult,
   GraphQLResultError,
-} from './types';
-export { InitialQueryOptions } from './query';
-export { FetcherOptions, DefaultFetcherOptions } from './fetcher';
-export { SchedulerStatus } from './scheduler';
-export { GraphQLError } from './errors/GraphQLError';
+} from "./types";
+export { InitialQueryOptions } from "./query";
+export { FetcherOptions, DefaultFetcherOptions } from "./fetcher";
+export { SchedulerStatus } from "./scheduler";
+export { GraphQLError } from "./errors/GraphQLError";

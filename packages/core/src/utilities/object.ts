@@ -1,6 +1,10 @@
-export const applyAliasesToObject = <TKey extends string, TAlias extends string, TValue>(
+export const applyAliasesToObject = <
+  TKey extends string,
+  TAlias extends string,
+  TValue
+>(
   obj: Record<TKey, TValue>,
-  aliases?: Partial<Record<TKey, TAlias>>,
+  aliases?: Partial<Record<TKey, TAlias>>
 ): Record<TKey, TValue> | Record<TAlias | TKey, TValue> => {
   if (!aliases) return obj;
 
@@ -12,7 +16,7 @@ export const applyAliasesToObject = <TKey extends string, TAlias extends string,
 export const accessNestedField = <T extends object, R extends any = any>(
   obj: T,
   path: string[],
-  field: string,
+  field: string
 ) => {
   let pointer: any = obj;
   for (const subpath of path) {
@@ -24,4 +28,5 @@ export const accessNestedField = <T extends object, R extends any = any>(
   return isObject(pointer) ? pointer[field as keyof typeof pointer] : undefined;
 };
 
-export const isObject = (obj: any): obj is object => typeof obj === 'object' && obj !== null;
+export const isObject = (obj: any): obj is object =>
+  typeof obj === "object" && obj !== null;

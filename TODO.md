@@ -3,3 +3,4 @@
 - [ ] Implement loading
 - [ ] Support unions
 - [ ] Support fragments
+- [ ] Support calculated fields

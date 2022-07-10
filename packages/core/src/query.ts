@@ -1,9 +1,14 @@
-import assert from 'assert';
-import type { FieldMetadata, QueryShape, RootType, VariablesDefinitionsType } from './types';
-import { restAndTail } from './utilities/array';
-import { isNumeric } from './utilities/string';
+import assert from "assert";
+import type {
+  FieldMetadata,
+  QueryShape,
+  RootType,
+  VariablesDefinitionsType,
+} from "./types";
+import { restAndTail } from "./utilities/array";
+import { isNumeric } from "./utilities/string";
 
-const INTERNALS = Symbol('Internal information for query');
+const INTERNALS = Symbol("Internal information for query");
 
 export type InitialQueryOptions = {
   rootType: RootType;
@@ -23,13 +28,14 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     for (const subfield of path) {
       if (isNumeric(subfield)) continue;
 
-      const subfieldMetadata: FieldMetadata | undefined = currentPointer?.[subfield];
+      const subfieldMetadata: FieldMetadata | undefined =
+        currentPointer?.[subfield];
 
       assert(
         subfieldMetadata,
         `InvalidShapeWasFormed: Pointer ${subfield} at location ${path.indexOf(
-          subfield,
-        )} for ${path.join('.')} was not found while appending a field`,
+          subfield
+        )} for ${path.join(".")} was not found while appending a field`
       );
 
       if (!subfieldMetadata.children) {
@@ -50,8 +56,8 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
       assert(
         parent,
         `InvalidShapeWasFormed: Last pointer for ${path.join(
-          '.',
-        )}.${field} was not found while appending a field`,
+          "."
+        )}.${field} was not found while appending a field`
       );
 
       const fieldPointer = parent[field];
@@ -66,7 +72,8 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
 
         if (!parentField) return fieldPointer;
 
-        grandParent[parentFieldName as keyof typeof grandParent].iterable = true;
+        grandParent[parentFieldName as keyof typeof grandParent].iterable =
+          true;
         return fieldPointer;
       }
 
@@ -80,33 +87,39 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     setVariables: <TVariableDefinitions extends VariablesDefinitionsType>(
       path: string[],
       field: string,
-      variableDefinitions: TVariableDefinitions,
+      variableDefinitions: TVariableDefinitions
     ) => {
       const parent = findTraversePath(path);
 
       const [variables, types] = Object.keys(variableDefinitions).reduce(
         ([variables, types], definition) => {
           assert(
-            definition.includes(':'),
+            definition.includes(":"),
             `Variable definition for field "${path.join(
-              '.',
-            )}.${field}" has to include type definition for variable "${definition}" in a format: { "<VARIABLE_NAME>:<VARIABLE_TYPE>": <VARIABLE_VALUE> }`,
+              "."
+            )}.${field}" has to include type definition for variable "${definition}" in a format: { "<VARIABLE_NAME>:<VARIABLE_TYPE>": <VARIABLE_VALUE> }`
           );
-          const [name, type] = definition.split(':').map((s) => s.trim()) as [string, string];
+          const [name, type] = definition.split(":").map((s) => s.trim()) as [
+            string,
+            string
+          ];
 
           return [
-            { ...variables, [name]: variableDefinitions[definition as keyof typeof variables] },
+            {
+              ...variables,
+              [name]: variableDefinitions[definition as keyof typeof variables],
+            },
             { ...types, [name]: type },
           ];
         },
-        [{}, {}],
+        [{}, {}]
       );
 
       assert(
         parent?.[field],
-        `Couldn't set variables for ${path.join('.')}.${field} (variables: ${JSON.stringify(
-          variables,
-        )})`,
+        `Couldn't set variables for ${path.join(
+          "."
+        )}.${field} (variables: ${JSON.stringify(variables)})`
       );
 
       parent[field] = {
@@ -124,8 +137,8 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
         field: FieldMetadata,
         fieldName: string,
         path: string[],
-        after: (cb: () => any) => void,
-      ) => void,
+        after: (cb: () => any) => void
+      ) => void
     ) {
       const traverseRecursive = (subShape: QueryShape, path: string[] = []) => {
         for (const fieldName of Object.keys(subShape)) {
@@ -147,15 +160,18 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     accessField: (path: string[]) => {
       const [basePath, fieldName] = restAndTail(path);
 
-      assert(fieldName, `InvalidArgument: Empty path passed into accessField ${path}`);
+      assert(
+        fieldName,
+        `InvalidArgument: Empty path passed into accessField ${path}`
+      );
 
       const parent = findTraversePath(basePath);
 
       assert(
         parent,
         `InvalidShapeWasFormed: Last pointer for ${path.join(
-          '.',
-        )} was not found while appending a field`,
+          "."
+        )} was not found while appending a field`
       );
 
       return parent[fieldName];
