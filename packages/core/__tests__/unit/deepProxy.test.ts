@@ -172,4 +172,16 @@ describe("unit | deepProxy", () => {
     const proxy = deepProxy<unknown[], { x: Symbol }>(interceptor);
     expect(proxy.x).toEqual(valueSymbol);
   });
+
+  it("should return a value if interceptor returns some valid defined value", () => {
+    const valueSymbol = Symbol("value");
+    const interceptor = { get: jest.fn(() => valueSymbol), call: jest.fn() };
+    const proxy = deepProxy<unknown[], { x: Symbol; y: { z: string } }>(
+      interceptor,
+      (path, { ReturnValue, ReturnProxy }) =>
+        path[0] === "x" ? ReturnValue(valueSymbol) : ReturnProxy
+    );
+    expect(proxy.x).toEqual(valueSymbol);
+    expect(proxy.y.z).not.toEqual(valueSymbol);
+  });
 });

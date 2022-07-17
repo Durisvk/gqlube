@@ -61,16 +61,20 @@ export const scheduler = <TResult extends GraphQLResult>(
 
   scheduleFetching("FETCHING");
 
+  const promise = async () => {
+    await internals.waitForEmptyStackPromise;
+    return internals.fetchingPromise;
+  };
+
   return {
     [INTERNALS]: internals,
     refetch: () => {
+      internals.status = "REFETCHING";
       scheduleFetching("REFETCHING");
+      return promise();
     },
     setStatus: (status: "ERROR") => (internals.status = status),
     getStatus: () => internals.status,
-    promise: async () => {
-      await internals.waitForEmptyStackPromise;
-      return internals.fetchingPromise;
-    },
+    promise,
   };
 };
