@@ -3,15 +3,14 @@ import { defaultFetcher, FetcherOptions } from "./fetcher";
 import { generator } from "./generator";
 import { interceptor } from "./interceptor";
 import { query, InitialQueryOptions } from "./query";
-import { scheduler, SchedulerStatus } from "./scheduler";
+import { scheduler, SchedulerOptions, SchedulerStatus } from "./scheduler";
 import { GraphQLResult } from "./types";
 import { GraphQLError } from "./errors/GraphQLError";
-
-type UnknownInterceptorArgs = unknown[];
 
 export type InstanceOptions<TResult extends GraphQLResult = GraphQLResult> =
   InitialQueryOptions & {
     fetcher: FetcherOptions<TResult>;
+    scheduler?: SchedulerOptions;
     onError?: (error: GraphQLError) => unknown;
     proxy?: {
       returnStrategy?: ProxyReturnStrategy;
@@ -22,6 +21,7 @@ export type QueryControls<TResult extends GraphQLResult = GraphQLResult> = {
   refetch: () => void;
   status: () => SchedulerStatus;
   promise: () => Promise<TResult | undefined>;
+  updateData: (update: (data: TResult["data"]) => TResult["data"]) => void;
 };
 
 /**
@@ -50,25 +50,24 @@ export const instance = <
 ): [TQuery, QueryControls] => {
   const q = query(options);
   const i = interceptor<TResult["data"]>(q);
-  const p = deepProxy<UnknownInterceptorArgs, TQuery>(
-    i.intercept,
-    options.proxy?.returnStrategy
-  );
+  const p = deepProxy<TQuery>(i.intercept, options.proxy?.returnStrategy);
   const g = generator(q);
   const f =
     typeof options.fetcher === "function"
       ? options.fetcher
       : defaultFetcher<TResult>(options.fetcher);
 
-  const s = scheduler<TResult>(g, f, (result) => {
-    if (result.errors) {
-      const error = new GraphQLError(result.errors);
-      s.setStatus("ERROR");
-      if (options.onError) return options.onError(error);
-      else throw error;
-    }
+  const s = scheduler<TResult>(g, f, {
+    ...scheduler,
+    onFetched: (result) => {
+      if (result.errors) {
+        const error = new GraphQLError(result.errors);
+        s.setStatus("ERROR");
+        options.onError?.(error);
+      }
 
-    i.storeData(result.data);
+      i.storeData(result.data);
+    },
   });
 
   return [
@@ -77,6 +76,7 @@ export const instance = <
       refetch: s.refetch,
       status: s.getStatus,
       promise: s.promise,
+      updateData: i.updateData,
     },
   ];
 };

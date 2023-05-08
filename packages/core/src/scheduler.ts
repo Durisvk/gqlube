@@ -1,5 +1,6 @@
 import { Generator } from "./generator";
 import { Fetcher, GraphQLResult } from "./types";
+import { applyTiming } from "./utilities/timing";
 
 const INTERNALS = Symbol("Internal information for scheduler");
 export type SchedulerStatus =
@@ -8,6 +9,11 @@ export type SchedulerStatus =
   | "DONE"
   | "ERROR"
   | "REFETCHING";
+
+export type SchedulerOptions = {
+  lazy?: boolean;
+};
+
 type SchedulerFetchingStatus = Extract<
   SchedulerStatus,
   "FETCHING" | "REFETCHING"
@@ -16,8 +22,10 @@ type SchedulerFetchingStatus = Extract<
 export const scheduler = <TResult extends GraphQLResult>(
   generator: Generator,
   fetcher: Fetcher<TResult>,
-  onFetched?: (result: TResult) => void
+  options?: SchedulerOptions & { onFetched?: (result: TResult) => void }
 ) => {
+  const { onFetched, lazy = true } = options || {};
+
   const internals: Partial<{
     waitForEmptyStackPromise: Promise<void>;
     fetchingPromise: Promise<TResult>;
@@ -30,7 +38,8 @@ export const scheduler = <TResult extends GraphQLResult>(
       if (generator.isReady()) {
         return resolve();
       }
-      createEmptyStackPromise(i).then(resolve).catch(reject);
+
+      applyTiming(() => createEmptyStackPromise(i).then(resolve).catch(reject));
     });
 
   const scheduleFetching = (status: SchedulerFetchingStatus) => {
@@ -51,15 +60,23 @@ export const scheduler = <TResult extends GraphQLResult>(
       });
 
       // tslint:disable-next-line: no-floating-promises
-      internals.fetchingPromise.then((result) => {
-        delete internals.fetchingPromise;
-        internals.status = "DONE";
-        onFetched?.(result);
-      });
+      internals.fetchingPromise
+        .then((result) => {
+          delete internals.fetchingPromise;
+          internals.status = "DONE";
+          onFetched?.(result);
+        })
+        .catch((e) => {
+          delete internals.fetchingPromise;
+          internals.status = "ERROR";
+          onFetched?.({ errors: [e] } as TResult);
+        });
     });
   };
 
-  scheduleFetching("FETCHING");
+  if (!lazy) {
+    scheduleFetching("FETCHING");
+  }
 
   const promise = async () => {
     await internals.waitForEmptyStackPromise;
@@ -75,6 +92,9 @@ export const scheduler = <TResult extends GraphQLResult>(
     },
     setStatus: (status: "ERROR") => (internals.status = status),
     getStatus: () => internals.status,
-    promise,
+    promise: () => {
+      if (lazy) scheduleFetching("FETCHING");
+      return promise();
+    },
   };
 };

@@ -1,0 +1,33 @@
+enum X {
+  A
+  B
+  C
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  x: X!
+}
+
+type NotFoundValidationError {
+  message: String!
+}
+
+union UserNotFoundValidationErrorUnion = NotFoundValidationError | User
+
+type Query {
+  user(id: ID!): UserNotFoundValidationErrorUnion!
+  users: [User]!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  x: X
+}
+
+type Mutation {
+  updateUser(id: ID!, user: UpdateUserInput): User
+}

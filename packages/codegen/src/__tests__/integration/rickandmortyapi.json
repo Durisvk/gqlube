@@ -1,0 +1,1409 @@
+{
+  "Query": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Query"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a specific character by ID",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "character"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "id"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": {
+                  "kind": "Name",
+                  "value": "ID"
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Character"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get the list of all characters",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "characters"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "filter"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "FilterCharacter"
+              }
+            },
+            "directives": []
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "page"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Int"
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Characters"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a list of characters selected by ids",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "charactersByIds"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "ids"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "ListType",
+                "type": {
+                  "kind": "NonNullType",
+                  "type": {
+                    "kind": "NamedType",
+                    "name": {
+                      "kind": "Name",
+                      "value": "ID"
+                    }
+                  }
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Character"
+            }
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a specific episode by ID",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "episode"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "id"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": {
+                  "kind": "Name",
+                  "value": "ID"
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Episode"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get the list of all episodes",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "episodes"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "filter"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "FilterEpisode"
+              }
+            },
+            "directives": []
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "page"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Int"
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Episodes"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a list of episodes selected by ids",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "episodesByIds"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "ids"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "ListType",
+                "type": {
+                  "kind": "NonNullType",
+                  "type": {
+                    "kind": "NamedType",
+                    "name": {
+                      "kind": "Name",
+                      "value": "ID"
+                    }
+                  }
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Episode"
+            }
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a specific locations by ID",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "location"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "id"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "NamedType",
+                "name": {
+                  "kind": "Name",
+                  "value": "ID"
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Location"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get the list of all locations",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "locations"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "filter"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "FilterLocation"
+              }
+            },
+            "directives": []
+          },
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "page"
+            },
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Int"
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Locations"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Get a list of locations selected by ids",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "locationsByIds"
+        },
+        "arguments": [
+          {
+            "kind": "InputValueDefinition",
+            "name": {
+              "kind": "Name",
+              "value": "ids"
+            },
+            "type": {
+              "kind": "NonNullType",
+              "type": {
+                "kind": "ListType",
+                "type": {
+                  "kind": "NonNullType",
+                  "type": {
+                    "kind": "NamedType",
+                    "name": {
+                      "kind": "Name",
+                      "value": "ID"
+                    }
+                  }
+                }
+              }
+            },
+            "directives": []
+          }
+        ],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Location"
+            }
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "Character": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Character"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Time at which the character was created in the database.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "created"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Episodes in which this character appeared.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "episode"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NonNullType",
+          "type": {
+            "kind": "ListType",
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Episode"
+              }
+            }
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "gender"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The id of the character.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "id"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "ID"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Link to the character's image.\nAll images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "image"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The character's last known location",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "location"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Location"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The name of the character.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The character's origin location",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "origin"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Location"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The species of the character.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "species"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The status of the character ('Alive', 'Dead' or 'unknown').",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "status"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The type or subspecies of the character.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "type"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "Episode": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Episode"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The air date of the episode.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "air_date"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "List of characters who have been seen in the episode.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "characters"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NonNullType",
+          "type": {
+            "kind": "ListType",
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Character"
+              }
+            }
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Time at which the episode was created in the database.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "created"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The code of the episode.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "episode"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The id of the episode.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "id"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "ID"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The name of the episode.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "Location": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Location"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Time at which the location was created in the database.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "created"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The dimension in which the location is located.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "dimension"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The id of the location.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "id"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "ID"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The name of the location.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "List of characters who have been last seen in the location.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "residents"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NonNullType",
+          "type": {
+            "kind": "ListType",
+            "type": {
+              "kind": "NamedType",
+              "name": {
+                "kind": "Name",
+                "value": "Character"
+              }
+            }
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The type of the location.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "type"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "FilterCharacter": {
+    "kind": "InputObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "FilterCharacter"
+    },
+    "fields": [
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "gender"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "species"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "status"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "type"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "directives": []
+  },
+  "Characters": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Characters"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "info"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Info"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "results"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Character"
+            }
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "Info": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Info"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The length of the response.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "count"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Int"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Number of the next page (if it exists)",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "next"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Int"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "The amount of pages.",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "pages"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Int"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "description": {
+          "kind": "StringValue",
+          "value": "Number of the previous page (if it exists)",
+          "block": true
+        },
+        "name": {
+          "kind": "Name",
+          "value": "prev"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Int"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "FilterEpisode": {
+    "kind": "InputObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "FilterEpisode"
+    },
+    "fields": [
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "episode"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "directives": []
+  },
+  "Episodes": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Episodes"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "info"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Info"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "results"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Episode"
+            }
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "FilterLocation": {
+    "kind": "InputObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "FilterLocation"
+    },
+    "fields": [
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "dimension"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "name"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "InputValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "type"
+        },
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "String"
+          }
+        },
+        "directives": []
+      }
+    ],
+    "directives": []
+  },
+  "Locations": {
+    "kind": "ObjectTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "Locations"
+    },
+    "fields": [
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "info"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "NamedType",
+          "name": {
+            "kind": "Name",
+            "value": "Info"
+          }
+        },
+        "directives": []
+      },
+      {
+        "kind": "FieldDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "results"
+        },
+        "arguments": [],
+        "type": {
+          "kind": "ListType",
+          "type": {
+            "kind": "NamedType",
+            "name": {
+              "kind": "Name",
+              "value": "Location"
+            }
+          }
+        },
+        "directives": []
+      }
+    ],
+    "interfaces": [],
+    "directives": []
+  },
+  "CacheControlScope": {
+    "kind": "EnumTypeDefinition",
+    "name": {
+      "kind": "Name",
+      "value": "CacheControlScope"
+    },
+    "values": [
+      {
+        "kind": "EnumValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "PRIVATE"
+        },
+        "directives": []
+      },
+      {
+        "kind": "EnumValueDefinition",
+        "name": {
+          "kind": "Name",
+          "value": "PUBLIC"
+        },
+        "directives": []
+      }
+    ],
+    "directives": []
+  }
+}

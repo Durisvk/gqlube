@@ -1,1 +1,3 @@
-export class AccessOfInvalidFieldTypeError extends Error {}
+export class AccessOfInvalidFieldTypeError extends Error {
+  [Symbol.toStringTag] = "AccessOfInvalidFieldTypeError";
+}

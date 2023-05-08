@@ -18,11 +18,9 @@ describe("unit | scheduler", () => {
 
     const onFetched = jest.fn();
 
-    const { getStatus, promise, refetch } = scheduler(
-      generator,
-      fetcher,
-      onFetched
-    );
+    const { getStatus, promise, refetch } = scheduler(generator, fetcher, {
+      onFetched,
+    });
 
     expect(getStatus()).toBe("HARVESTING");
     expect(generator.produceQuery).toHaveBeenCalledTimes(0);

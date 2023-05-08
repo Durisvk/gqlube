@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Public APIs https://countries.trevorblades.com (countriesapi.json) should be processable by the plugin 1`] = `
+"export type Query = {
+    __typename: \\"Query\\";
+    _entities: (inputs: {
+        'representations: [_Any!]': _Any[];
+    }) => _Entity[];
+    _service: _Service;
+    continent: (inputs: {
+        'code: ID': string;
+    }) => Continent;
+    continents: (inputs?: {
+        'filter: ContinentFilterInput'?: ContinentFilterInput;
+    }) => Continent[];
+    countries: (inputs?: {
+        'filter: CountryFilterInput'?: CountryFilterInput;
+    }) => Country[];
+    country: (inputs: {
+        'code: ID': string;
+    }) => Country;
+    language: (inputs: {
+        'code: ID': string;
+    }) => Language;
+    languages: (inputs?: {
+        'filter: LanguageFilterInput'?: LanguageFilterInput;
+    }) => Language[];
+};
+export type _Any = any;
+export type _Entity = Continent | Country | Language;
+export type Continent = {
+    __typename: \\"Continent\\";
+    code: string;
+    countries: Country[];
+    name: string;
+};
+export type Country = {
+    __typename: \\"Country\\";
+    capital?: string;
+    code: string;
+    continent: Continent;
+    currency?: string;
+    emoji: string;
+    emojiU: string;
+    languages: Language[];
+    name: string;
+    native: string;
+    phone: string;
+    states: State[];
+};
+export type Language = {
+    __typename: \\"Language\\";
+    code: string;
+    name?: string;
+    native?: string;
+    rtl: boolean;
+};
+export type State = {
+    __typename: \\"State\\";
+    code?: string;
+    country: Country;
+    name: string;
+};
+export type _Service = {
+    __typename: \\"_Service\\";
+    sdl?: string;
+};
+export type ContinentFilterInput = {
+    code?: StringQueryOperatorInput;
+};
+export type StringQueryOperatorInput = {
+    eq?: string;
+    glob?: string;
+    in?: string[];
+    ne?: string;
+    nin?: string[];
+    regex?: string;
+};
+export type CountryFilterInput = {
+    code?: StringQueryOperatorInput;
+    continent?: StringQueryOperatorInput;
+    currency?: StringQueryOperatorInput;
+};
+export type LanguageFilterInput = {
+    code?: StringQueryOperatorInput;
+};
+"
+`;
+
+exports[`Public APIs https://rickandmortyapi.com/graphql (rickandmortyapi.json) should be processable by the plugin 1`] = `
+"export type Query = {
+    __typename: \\"Query\\";
+    character: (inputs: {
+        'id: ID': string;
+    }) => Character;
+    characters: (inputs?: {
+        'filter: FilterCharacter'?: FilterCharacter;
+        'page: Int'?: number;
+    }) => Characters;
+    charactersByIds: (inputs: {
+        'ids: [ID!]': string[];
+    }) => Character[];
+    episode: (inputs: {
+        'id: ID': string;
+    }) => Episode;
+    episodes: (inputs?: {
+        'filter: FilterEpisode'?: FilterEpisode;
+        'page: Int'?: number;
+    }) => Episodes;
+    episodesByIds: (inputs: {
+        'ids: [ID!]': string[];
+    }) => Episode[];
+    location: (inputs: {
+        'id: ID': string;
+    }) => Location;
+    locations: (inputs?: {
+        'filter: FilterLocation'?: FilterLocation;
+        'page: Int'?: number;
+    }) => Locations;
+    locationsByIds: (inputs: {
+        'ids: [ID!]': string[];
+    }) => Location[];
+};
+export type Character = {
+    __typename: \\"Character\\";
+    created?: string;
+    episode: Episode[];
+    gender?: string;
+    id?: string;
+    image?: string;
+    location?: Location;
+    name?: string;
+    origin?: Location;
+    species?: string;
+    status?: string;
+    type?: string;
+};
+export type Episode = {
+    __typename: \\"Episode\\";
+    air_date?: string;
+    characters: Character[];
+    created?: string;
+    episode?: string;
+    id?: string;
+    name?: string;
+};
+export type Location = {
+    __typename: \\"Location\\";
+    created?: string;
+    dimension?: string;
+    id?: string;
+    name?: string;
+    residents: Character[];
+    type?: string;
+};
+export type FilterCharacter = {
+    gender?: string;
+    name?: string;
+    species?: string;
+    status?: string;
+    type?: string;
+};
+export type Characters = {
+    __typename: \\"Characters\\";
+    info?: Info;
+    results?: Character[];
+};
+export type Info = {
+    __typename: \\"Info\\";
+    count?: number;
+    next?: number;
+    pages?: number;
+    prev?: number;
+};
+export type FilterEpisode = {
+    episode?: string;
+    name?: string;
+};
+export type Episodes = {
+    __typename: \\"Episodes\\";
+    info?: Info;
+    results?: Episode[];
+};
+export type FilterLocation = {
+    dimension?: string;
+    name?: string;
+    type?: string;
+};
+export type Locations = {
+    __typename: \\"Locations\\";
+    info?: Info;
+    results?: Location[];
+};
+export enum CacheControlScope {
+    PRIVATE,
+    PUBLIC
+}
+"
+`;

@@ -1,0 +1,60 @@
+{
+  "name": "@gqlube/codegen",
+  "version": "0.0.1-alpha.9",
+  "description": "Code generators for gqlube",
+  "keywords": [
+    "gqlube",
+    "graphql",
+    "gql",
+    "client"
+  ],
+  "author": "Juraj Carnogursky <durisvk2@gmail.com>",
+  "homepage": "https://github.com/Durisvk/gqlube#readme",
+  "license": "ISC",
+  "main": "dist/lib/index.js",
+  "types": "dist/types/index.d.ts",
+  "typedocMain": "./src/index.ts",
+  "module": "dist/index.es5.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Durisvk/gqlube.git"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "lint": "eslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__tests__/**/*.ts'",
+    "build": "tsc --module commonjs && rollup -c rollup.config.js",
+    "prebuild": "rimraf dist",
+    "precommit": "lint-staged",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "docs": "typedoc .",
+    "codegen": "gql-gen --config codegen.yml --debug"
+  },
+  "lint-staged": {
+    "{src,__tests__}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/Durisvk/gqlube/issues"
+  },
+  "dependencies": {
+    "@gqlube/core": "^0.0.1-alpha.9",
+    "@graphql-codegen/cli": "^2.16.1",
+    "@graphql-codegen/typescript": "^2.8.5",
+    "graphql-codegen-typescript-common": "0.18.2",
+    "typescript": "^4.9.4"
+  }
+}

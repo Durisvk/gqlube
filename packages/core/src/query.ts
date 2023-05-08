@@ -1,11 +1,11 @@
-import assert from "assert";
+import assert from "nanoassert";
 import type {
   FieldMetadata,
   QueryShape,
   RootType,
   VariablesDefinitionsType,
 } from "./types";
-import { restAndTail } from "./utilities/array";
+import { ReadonlyOrNotReadonlyArray, restAndTail } from "./utilities/array";
 import { isNumeric } from "./utilities/string";
 
 const INTERNALS = Symbol("Internal information for query");
@@ -23,7 +23,9 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     shape,
   };
 
-  const findTraversePath = (path: string[]) => {
+  const findTraversePath = <TPath extends ReadonlyOrNotReadonlyArray<string[]>>(
+    path: TPath
+  ) => {
     let currentPointer: QueryShape | undefined = shape;
     for (const subfield of path) {
       if (isNumeric(subfield)) continue;
@@ -50,7 +52,13 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
 
   return {
     [INTERNALS]: internals,
-    appendField: (path: string[], field: string) => {
+    appendField: <
+      TPath extends ReadonlyOrNotReadonlyArray<string[]>,
+      TField extends string
+    >(
+      path: TPath,
+      field: TField
+    ) => {
       const parent = findTraversePath(path);
 
       assert(
@@ -84,9 +92,13 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
       return fieldPointer;
     },
 
-    setVariables: <TVariableDefinitions extends VariablesDefinitionsType>(
-      path: string[],
-      field: string,
+    setVariables: <
+      TPath extends ReadonlyOrNotReadonlyArray<string[]>,
+      TField extends string,
+      TVariableDefinitions extends VariablesDefinitionsType
+    >(
+      path: TPath,
+      field: TField,
       variableDefinitions: TVariableDefinitions
     ) => {
       const parent = findTraversePath(path);
@@ -133,14 +145,22 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
     },
 
     traverse(
-      visitor: (
+      visitor: <
+        TPath extends ReadonlyOrNotReadonlyArray<string[]>,
+        TFieldName extends string
+      >(
         field: FieldMetadata,
-        fieldName: string,
-        path: string[],
+        fieldName: TFieldName,
+        path: TPath,
         after: (cb: () => any) => void
       ) => void
     ) {
-      const traverseRecursive = (subShape: QueryShape, path: string[] = []) => {
+      const traverseRecursive = <
+        TPath extends ReadonlyOrNotReadonlyArray<string[]>
+      >(
+        subShape: QueryShape,
+        path: TPath
+      ) => {
         for (const fieldName of Object.keys(subShape)) {
           const field = subShape[fieldName as keyof typeof subShape];
           let afterCallback = () => void 0;
@@ -154,10 +174,12 @@ export const query = ({ rootType, operationName }: InitialQueryOptions) => {
         }
       };
 
-      traverseRecursive(shape);
+      traverseRecursive(shape, [] as string[]);
     },
 
-    accessField: (path: string[]) => {
+    accessField: <TPath extends ReadonlyOrNotReadonlyArray<string[]>>(
+      path: TPath
+    ) => {
       const [basePath, fieldName] = restAndTail(path);
 
       assert(

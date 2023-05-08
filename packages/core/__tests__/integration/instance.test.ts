@@ -9,17 +9,19 @@ describe("integration | instance", () => {
 
     expect(status()).toEqual("HARVESTING");
 
-    for (const country of q.countries({
+    const countries = q.countries({
       "filter: CountryFilterInput": { code: { eq: "CZ" } },
-    })) {
-      country.name;
-    }
+    });
+
+    countries
+      .filter((country: any) => country.code === "CZ")
+      .map((country: any) => country.name);
 
     await promise();
 
     expect(
       q.countries({ "filter: CountryFilterInput": { code: { eq: "CZ" } } })
-    ).toEqual([{ name: "Czech Republic" }]);
+    ).toEqual([{ code: "CZ", name: "Czech Republic" }]);
 
     expect(status()).toEqual("DONE");
   });

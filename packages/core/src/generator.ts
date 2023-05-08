@@ -102,20 +102,19 @@ export const generator = (query: Query) => {
     produceQuery: () => {
       if (query.isEmpty()) return;
 
-      const builder = stringBuilder(
-        `${query.getRootTypeName().toLowerCase()} `
-      );
-      builder.append(
-        operationName(query.getRootFieldNames(), query.getRootTypeName())
-      );
-      builder.append(variables(query.traverse));
-      builder.append(` {`);
-      builder.append(fields(query.traverse));
-      builder.append("}\n");
-      return builder.build();
+      const builder = stringBuilder(`${query.getRootTypeName().toLowerCase()} `)
+        .append(
+          operationName(query.getRootFieldNames(), query.getRootTypeName())
+        )
+        .append(variables(query.traverse))
+        .append(` {`)
+        .append(fields(query.traverse))
+        .append("}\n");
+      const queryString = builder.build();
+      return queryString;
     },
 
-    isReady: () => query.isEmpty(),
+    isReady: () => !query.isEmpty(),
   };
 };
 

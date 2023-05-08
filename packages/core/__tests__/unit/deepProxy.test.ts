@@ -7,10 +7,9 @@ describe("unit | deepProxy", () => {
   it("should access a regular string field inside a proxy and interceptor should be invoked", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
 
-    const proxy = deepProxy<
-      unknown[],
-      { field1: string; anotherField: string }
-    >(interceptor);
+    const proxy = deepProxy<{ field1: string; anotherField: string }>(
+      interceptor
+    );
     proxy.field1;
 
     expect(interceptor.get).toHaveBeenCalledTimes(1);
@@ -28,12 +27,9 @@ describe("unit | deepProxy", () => {
   it("should access a nested field under proxy and interceptor should be invoked", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
 
-    const proxy = deepProxy<
-      unknown[],
-      {
-        field1: { nested1Level: string; obj: { nested2Levels: string } };
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      field1: { nested1Level: string; obj: { nested2Levels: string } };
+    }>(interceptor);
     proxy.field1.nested1Level;
 
     expect(interceptor.get).toHaveBeenCalledTimes(2);
@@ -57,12 +53,9 @@ describe("unit | deepProxy", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
     const mySymbol = Symbol("hello");
 
-    const proxy = deepProxy<
-      unknown[],
-      {
-        [mySymbol]: string;
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      [mySymbol]: string;
+    }>(interceptor);
 
     const accessOfInvalidFieldType = () => {
       proxy[mySymbol];
@@ -73,14 +66,11 @@ describe("unit | deepProxy", () => {
 
   it("should detect a function call", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const proxy = deepProxy<
-      unknown[],
-      {
-        x: {
-          y: (a: string, b: number) => void;
-        };
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      x: {
+        y: (a: string, b: number) => void;
+      };
+    }>(interceptor);
 
     proxy.x.y("a", 1);
 
@@ -89,12 +79,9 @@ describe("unit | deepProxy", () => {
 
   it("should allow enumeration over proxy", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const proxy = deepProxy<
-      unknown[],
-      {
-        iterator: IterableIterator<never>;
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      iterator: IterableIterator<never>;
+    }>(interceptor);
 
     const iterator = proxy.iterator;
 
@@ -113,12 +100,9 @@ describe("unit | deepProxy", () => {
 
   it("should get nested value after enumeration over proxy", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const proxy = deepProxy<
-      unknown[],
-      {
-        iterator: IterableIterator<{ value: string }>;
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      iterator: IterableIterator<{ value: string }>;
+    }>(interceptor);
 
     const iterator = proxy.iterator;
     interceptor.get.mockReset();
@@ -134,12 +118,9 @@ describe("unit | deepProxy", () => {
   });
   it("should act as an array", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const proxy = deepProxy<
-      unknown[],
-      {
-        iterator: IterableIterator<{ value: string }>;
-      }
-    >(interceptor);
+    const proxy = deepProxy<{
+      iterator: IterableIterator<{ value: string }>;
+    }>(interceptor);
 
     const iterator = proxy.iterator;
     interceptor.get.mockReset();
@@ -156,7 +137,7 @@ describe("unit | deepProxy", () => {
 
   it("should get access a field of an array", () => {
     const interceptor = { get: jest.fn(), call: jest.fn() };
-    const proxy = deepProxy<unknown[], [[[{ value: string }]]]>(interceptor);
+    const proxy = deepProxy<[[[{ value: string }]]]>(interceptor);
 
     const x = proxy[0][0][0];
     interceptor.get.mockReset();
@@ -166,17 +147,34 @@ describe("unit | deepProxy", () => {
     expect(interceptor.get).toHaveBeenCalledWith(["0", "0", "0"], "value");
   });
 
+  it("should run map function on an array", () => {
+    const interceptor = { get: jest.fn(), call: jest.fn() };
+    const proxy = deepProxy<{ array: { field: { nestedField: string } }[] }>(
+      interceptor
+    );
+
+    proxy.array.map((item) => {
+      expect(item.field.nestedField).toBeDefined();
+      return item.field.nestedField;
+    });
+
+    expect(interceptor.get).toHaveBeenCalledWith(
+      ["array", INFINITY_SYMBOL, "field"],
+      "nestedField"
+    );
+  });
+
   it("should return a value if interceptor returns some valid defined value", () => {
     const valueSymbol = Symbol("value");
     const interceptor = { get: jest.fn(() => valueSymbol), call: jest.fn() };
-    const proxy = deepProxy<unknown[], { x: Symbol }>(interceptor);
+    const proxy = deepProxy<{ x: Symbol }>(interceptor);
     expect(proxy.x).toEqual(valueSymbol);
   });
 
   it("should return a value if interceptor returns some valid defined value", () => {
     const valueSymbol = Symbol("value");
     const interceptor = { get: jest.fn(() => valueSymbol), call: jest.fn() };
-    const proxy = deepProxy<unknown[], { x: Symbol; y: { z: string } }>(
+    const proxy = deepProxy<{ x: Symbol; y: { z: string } }>(
       interceptor,
       (path, { ReturnValue, ReturnProxy }) =>
         path[0] === "x" ? ReturnValue(valueSymbol) : ReturnProxy

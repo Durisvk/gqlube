@@ -16,7 +16,7 @@ export type GraphQLResult<
   TErrorShape extends GraphQLResultError = GraphQLResultError
 > = {
   data: TDataShape;
-  errors: TErrorShape[];
+  errors?: TErrorShape[];
 };
 export type VariableDefinition = `${string}${" " | ""}:${
   | " "

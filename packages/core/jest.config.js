@@ -5,5 +5,6 @@ module.exports = {
   ...base,
   displayName: pack.name,
   name: pack.name,
-  rootDir: "../..",
+  rootDir: ".",
+  collectCoverageFrom: ["src/**/*.{js,ts}"],
 };

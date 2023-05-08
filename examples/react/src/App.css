@@ -1,0 +1,75 @@
+.App {
+  text-align: center;
+}
+
+.task-list {
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-list-header {
+  padding: 24px;
+}
+
+.task-list-header input {
+  font-size: 24px;
+  font-weight: 300;
+  border: none;
+  outline: none;
+  width: 240px;
+}
+
+.task-list-body {
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.task-list-body .task label {
+  cursor: pointer;
+}
+
+.task-list-body .task label:hover:not(.checked) {
+  text-decoration: underline;
+}
+
+.task-list-body .task label.checked {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+.task-list-body .task input {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-clip: content-box;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.task-list-body .task input:checked {
+  background-color: #ccc;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='%23fff'%3E%3Cpath d='M9.172 16.242l-3.414-3.414-1.414 1.414 4.828 4.828 10.586-10.586-1.414-1.414-9.172 9.172z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px;
+}
+
+.task-list-body .task input:checked::after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 4px;
+  background-color: #fff;
+}

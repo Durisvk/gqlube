@@ -32,7 +32,7 @@
   },
   "scripts": {
     "lint": "eslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' '__tests__/**/*.ts'",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts",
+    "build": "tsc --module commonjs && rollup -c rollup.config.js",
     "prebuild": "rimraf dist",
     "precommit": "lint-staged",
     "test": "jest --coverage",
@@ -49,11 +49,13 @@
   "bugs": {
     "url": "https://github.com/Durisvk/gqlube/issues"
   },
-  "dependencies": {
-    "assert": "^2.0.0"
-  },
   "devDependencies": {
-    "@types/assert": "^1.5.6"
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@types/nanoassert": "^2.0.1",
+    "rollup-plugin-ignore": "^1.0.10",
+    "rollup-plugin-polyfill-node": "^0.12.0"
   },
-  "gitHead": "ba38e00372b71d067b9e2fbf6f27e3643252b724"
+  "dependencies": {
+    "nanoassert": "^2.0.0"
+  }
 }
